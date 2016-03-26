@@ -93,6 +93,9 @@ void configure_callback(leddar::ScanConfig &config, uint32_t level) {
     ROS_DEBUG("DEMERGING: %s", config.object_demerging ? "true" : "false");
     LeddarSetProperty(handler, PID_OBJECT_DEMERGING, 0,
                       config.object_demerging);
+                      
+    // Write changes to Leddar.
+    LeddarWriteConfiguration(handler);
 }
 
 
