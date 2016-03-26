@@ -26,7 +26,7 @@ ros::Publisher pub;
 
 static unsigned char leddar_callback(void *handler, unsigned int levels) {
     LdDetection detections[BEAM_COUNT];
-    unsigned int i, j, count = LeddarGetDetectionCount(handler);
+    unsigned int count = LeddarGetDetectionCount(handler);
     if (count > BEAM_COUNT) {
         count = BEAM_COUNT;
     }
@@ -47,7 +47,7 @@ static unsigned char leddar_callback(void *handler, unsigned int levels) {
     msg.range_max = max_range;
 
     // Push detections into message.
-    for (i = 0; i < count; i++) {
+    for (int i = 0; i < count; i++) {
         msg.ranges.push_back(detections[i].mDistance);
     }
 
@@ -93,7 +93,7 @@ void configure_callback(leddar::ScanConfig &config, uint32_t level) {
     ROS_DEBUG("DEMERGING: %s", config.object_demerging ? "true" : "false");
     LeddarSetProperty(handler, PID_OBJECT_DEMERGING, 0,
                       config.object_demerging);
-                      
+
     // Write changes to Leddar.
     LeddarWriteConfiguration(handler);
 }
