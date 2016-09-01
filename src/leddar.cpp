@@ -32,7 +32,7 @@ static unsigned char leddar_callback(void *handler, unsigned int levels) {
     }
 
     // Acquire detections from Leddar.
-    LeddarGetDetections(handler, detections, sizeof(detections));
+    LeddarGetDetections(handler, detections, count);
 
     // Construct LaserScan message.
     sensor_msgs::LaserScan msg;
