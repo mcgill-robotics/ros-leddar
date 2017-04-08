@@ -12,9 +12,9 @@ generate_dynamic_reconfigure_options(cfg/Scan.cfg)
 
 catkin_package()
 
-include_directories(include)
+include_directories(include ${catkin_INCLUDE_DIRS})
 
-link_directories(${PROJECT_SOURCE_DIR}/lib)
+link_directories($ENV{LEDDAR_LIB_DIR})
 
 add_executable(leddar src/leddar.cpp)
 add_dependencies(leddar ${PROJECT_NAME}_gencfg)
