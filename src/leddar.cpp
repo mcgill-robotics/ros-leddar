@@ -166,13 +166,15 @@ static void
 ConnectSensor( const char* aSerial )
 {
   char* lConnectionType = "SERIAL";
+  char* cSerial = aSerial;
+  
   // Use default device` if unspecified.
   if (aSerial[0] == '\0')
   {
       aSerial = "default";
   }
 
-  int lCode = LeddarConnect( gHandle, lConnectionType, aSerial );
+  int lCode = LeddarConnect( gHandle, lConnectionType, cSerial );
 
   if ( lCode == LD_SUCCESS )
   {
