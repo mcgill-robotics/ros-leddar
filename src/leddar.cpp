@@ -166,8 +166,9 @@ static void
 ConnectSensor( const char* aSerial )
 {
   char* lConnectionType = "SERIAL";
-  char* cSerial = aSerial;
-  
+  char* cSerial;
+  std::strcpy( cSerial, aSerial );
+
   // Use default device` if unspecified.
   if (aSerial[0] == '\0')
   {
@@ -225,7 +226,7 @@ main( int argc, char *argv[] )
   // Get serial port and connect to Leddar.
   std::string serial;
   nh.getParam("serial", serial);
-  ConnectSensor( serial.c_str() );
+  ConnectSensor( serial );
   if ( !LeddarGetConnected( gHandle ) ) {
       LeddarDestroy( gHandle );
       return -1;
