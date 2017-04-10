@@ -163,7 +163,7 @@ configure_callback(leddar::ScanConfig &config, uint32_t level)
 }
 
 static void
-ConnectSensor( char* aSerial )
+ConnectSensor( const char* aSerial )
 {
   char* lConnectionType = "SERIAL";
   // Use default device` if unspecified.
