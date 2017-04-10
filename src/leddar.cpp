@@ -73,7 +73,7 @@ CheckError( int aCode )
 ///          function from the callback list).
 // *****************************************************************************
 
-static unsigned char
+static void
 DataCallback( void *aHandle )
 {
   LdDetection lDetections[BEAM_COUNT];
@@ -106,7 +106,6 @@ DataCallback( void *aHandle )
 
   // Publish and keep going.
   pub.publish(msg);
-  return 1;
 }
 
 // *****************************************************************************
@@ -139,11 +138,6 @@ configure_callback(leddar::ScanConfig &config, uint32_t level)
     ROS_DEBUG("INTENSITY: %d", config.intensity);
     LeddarSetProperty(gHandle, PID_LED_INTENSITY, 0, config.intensity);
 
-    // Set automatic LED intensity.
-    ROS_DEBUG("AUTO INTENSITY: %s", config.auto_intensity ? "true" : "false");
-    LeddarSetProperty(gHandle, PID_AUTOMATIC_LED_INTENSITY, 0,
-                      config.auto_intensity);
-
     // Set number of accumulations to perform.
     ROS_DEBUG("ACCUMULATIONS: %d", config.accumulations);
     LeddarSetProperty(gHandle, PID_ACCUMULATION_EXPONENT, 0,
@@ -163,11 +157,6 @@ configure_callback(leddar::ScanConfig &config, uint32_t level)
     ROS_DEBUG("THRESHOLD OFFSET: %d", config.threshold_offset);
     LeddarSetProperty(gHandle, PID_THRESHOLD_OFFSET, 0,
                       config.threshold_offset);
-
-    // Set detection of 2 objects close to each other.
-    ROS_DEBUG("DEMERGING: %s", config.object_demerging ? "true" : "false");
-    LeddarSetProperty(gHandle, PID_OBJECT_DEMERGING, 0,
-                      config.object_demerging);
 
     // Write changes to Leddar.
     LeddarWriteConfiguration(gHandle);
@@ -212,7 +201,7 @@ main( int argc, char *argv[] )
   pub = nh.advertise<sensor_msgs::LaserScan>(std::string("scan"), 1);
 
   // Initialize Leddar handler.
-  gHandle = LeddarCreate());
+  gHandle = LeddarCreate();
 
   // Get Leddar specifications.
   if (!nh.hasParam("range")) {
