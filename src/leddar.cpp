@@ -23,8 +23,47 @@ static double field_of_view;
 // ROS publisher.
 ros::Publisher pub;
 
+static void log_error(const char* prefix, int code) {
+    if (code != LD_SUCCESS) {
+        switch (code) {
+            case LD_ACCESS_DENIED:
+              ROS_ERROR("%s: LD_ACCESS_DENIED", prefix);
+              break;
+            case LD_TIMEOUT :
+              ROS_ERROR("%s: LD_TIMEOUT", prefix);
+              break;
+            case LD_START_OF_FILE :
+              ROS_ERROR("%s: LD_START_OF_FILE", prefix);
+              break;
+            case LD_END_OF_FILE :
+              ROS_ERROR("%s: LD_END_OF_FILE", prefix);
+              break;
+            case LD_NO_RECORD :
+              ROS_ERROR("%s: LD_NO_RECORD", prefix);
+              break;
+            case LD_ALREADY_STARTED :
+              ROS_ERROR("%s: LD_ALREADY_STARTED", prefix);
+              break;
+            case LD_NO_DATA_TRANSFER :
+              ROS_ERROR("%s: LD_NO_DATA_TRANSFER", prefix);
+              break;
+            case LD_NOT_CONNECTED :
+              ROS_ERROR("%s: LD_NOT_CONNECTED", prefix);
+              break;
+            case LD_INVALID_ARGUMENT :
+              ROS_ERROR("%s: LD_INVALID_ARGUMENT", prefix);
+              break;
+            case LD_ERROR :
+              ROS_ERROR("%s: LD_ERROR", prefix);
+              break;
+            case LD_NOT_ENOUGH_SPACE :
+              ROS_ERROR("%s: LD_NOT_ENOUGH_SPACE", prefix);
+              break;
+        }
+    }
+}
 
-static unsigned char leddar_callback(void *handler, unsigned int levels) {
+static void leddar_callback(void *handler) {
     LdDetection detections[BEAM_COUNT];
     unsigned int count = LeddarGetDetectionCount(handler);
     if (count > BEAM_COUNT) {
@@ -53,72 +92,79 @@ static unsigned char leddar_callback(void *handler, unsigned int levels) {
 
     // Publish and keep going.
     pub.publish(msg);
-    return 1;
 }
 
 
 void configure_callback(leddar::ScanConfig &config, uint32_t level) {
     ROS_INFO("Reconfiguring...");
+    int code;
 
     // Set relative intensity of LEDs.
     ROS_DEBUG("INTENSITY: %d", config.intensity);
-    LeddarSetProperty(handler, PID_LED_INTENSITY, 0, config.intensity);
-    
-    // Set automatic LED intensity.
-    ROS_DEBUG("AUTO INTENSITY: %s", config.auto_intensity ? "true" : "false");
-    LeddarSetProperty(handler, PID_AUTOMATIC_LED_INTENSITY, 0,
-                      config.auto_intensity);
+    code = LeddarSetProperty(handler, PID_LED_INTENSITY, 0, config.intensity);
+    log_error("LeddarSetProperty(PID_LED_INTENSITY)", code);
 
     // Set number of accumulations to perform.
     ROS_DEBUG("ACCUMULATIONS: %d", config.accumulations);
-    LeddarSetProperty(handler, PID_ACCUMULATION_EXPONENT, 0,
-                      config.accumulations);
+    code = LeddarSetProperty(handler, PID_ACCUMULATION_EXPONENT, 0,
+                             config.accumulations);
+    log_error("LeddarSetProperty(PID_ACCUMULATION_EXPONENT)", code);
 
     // Set number of oversamplings to perform between base samples.
     ROS_DEBUG("OVERSAMPLING: %d", config.oversampling);
-    LeddarSetProperty(handler, PID_OVERSAMPLING_EXPONENT, 0,
-                      config.oversampling);
+    code = LeddarSetProperty(handler, PID_OVERSAMPLING_EXPONENT, 0,
+                             config.oversampling);
+    log_error("LeddarSetProperty(PID_OVERSAMPLING_EXPONENT)", code);
 
     // Set number of base samples acquired.
     ROS_DEBUG("BASE SAMPLES: %d", config.base_point_count);
-    LeddarSetProperty(handler, PID_BASE_POINT_COUNT, 0,
-                      config.base_point_count);
+    code = LeddarSetProperty(handler, PID_BASE_POINT_COUNT, 0,
+                             config.base_point_count);
+    log_error("LeddarSetProperty(PID_BASE_POINT_COUNT)", code);
 
     // Set offset to increase detection threshold.
     ROS_DEBUG("THRESHOLD OFFSET: %d", config.threshold_offset);
-    LeddarSetProperty(handler, PID_THRESHOLD_OFFSET, 0,
-                      config.threshold_offset);
-
-    // Set detection of 2 objects close to each other.
-    ROS_DEBUG("DEMERGING: %s", config.object_demerging ? "true" : "false");
-    LeddarSetProperty(handler, PID_OBJECT_DEMERGING, 0,
-                      config.object_demerging);
+    code = LeddarSetProperty(handler, PID_THRESHOLD_OFFSET, 0,
+                             config.threshold_offset);
+    log_error("LeddarSetProperty(PID_THRESHOLD_OFFSET)", code);
 
     // Write changes to Leddar.
-    LeddarWriteConfiguration(handler);
+    code = LeddarWriteConfiguration(handler);
+    log_error("LeddarWriteConfiguration()", code);
 }
 
 
 static void stream(LeddarHandle handler) {
     // Start data transfer and set up callback.
     ROS_INFO("Streaming...");
-    LeddarStartDataTransfer(handler, LDDL_DETECTIONS);
-    LeddarAddCallback(handler, leddar_callback, handler);
+
+    int code = LeddarStartDataTransfer(handler, LDDL_DETECTIONS);
+    log_error("LeddarStartDataTransfer()", code);
+
+    LeddarSetCallback(handler, leddar_callback, handler);
 }
 
 
 static void connect(LeddarHandle handler, const char* serial) {
-    int code = LeddarConnect(handler, serial);
-    
+    // TODO: Make this an argument.
+    char* connection_type = (char*)"SERIAL";
+
+    // Need to convert from const char* to a char*.
+    char* serial_copy = (char*)malloc(strlen(serial) + 1);
+    strcpy(serial_copy, serial);
+
+    int code = LeddarConnect(handler, connection_type, serial_copy);
+    log_error("LeddarConnect()", code);
+
     // Use default device` if unspecified.
-    if (serial[0] == '\0') {
-        serial = "default";
+    if (serial_copy[0] == '\0') {
+        serial_copy = (char*)"default";
     }
 
     if (code == LD_SUCCESS) {
-        ROS_INFO("Connected to %s", serial);
+        ROS_INFO("Connected to %s", serial_copy);
     } else {
-        ROS_FATAL("Failed to connect to %s with code: %d", serial, code);
+        ROS_FATAL("Failed to connect to %s", serial_copy);
     }
 }
 
