@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   dynamic_reconfigure
 )
 
+find_package(Qt5Core REQUIRED)
+
 generate_dynamic_reconfigure_options(cfg/Scan.cfg)
 
 catkin_package()

@@ -31,8 +31,9 @@ You might have to restart for this to take effect.
 
 LeddarTech Driver
 -----------------
-Register for an account at [support.leddartech.com](support.leddartech.com) and
-download SDK for your target platform. Current supported version is v2.10.x.
+Register for an account at
+[support.leddartech.com](https://support.leddartech.com) and download SDK for
+your target platform. Current supported version is v3.2.x.
 Extract the archive and move the `*.so` files into a directory of your choice,
 usually `/usr/lib`. This folder will be your `${LEDDAR_LIB_DIR}` directory.
 
