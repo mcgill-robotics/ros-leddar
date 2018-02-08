@@ -3,8 +3,7 @@
   <name>leddar</name>
   <version>0.1.0</version>
   <description>
-      This package provides a ROS interface to control and communicate with
-      the Leddar sensors.
+      Controls and communicates with Leddar sensors.
   </description>
 
   <maintainer email="mr@anassinator.com">Anass Al</maintainer>

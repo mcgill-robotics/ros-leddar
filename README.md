@@ -16,6 +16,12 @@ You must clone this repository as `leddar` into your catkin workspace:
 git clone https://github.com/mcgill-robotics/ros-leddar.git leddar
 ```
 
+Then, install `libqt5serialport5-dev`. On Ubuntu, you can do so as follows:
+
+```bash
+sudo apt-get install -y libqt5serialport5-dev
+```
+
 Udev rules
 ----------
 To set up udev rules for your device, simply run:
