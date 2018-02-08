@@ -18,9 +18,8 @@
 
 #pragma once
 
-enum LdCommands
-{
-    CID_START_TEACH                = 0x400000,
-    CID_SET_QUICK_LIMIT            = 0x400001,
-    CID_READ_ADVANCED_SENSOR_INFO  = 0x400002,
+enum LdCommands {
+  CID_START_TEACH = 0x400000,
+  CID_SET_QUICK_LIMIT = 0x400001,
+  CID_READ_ADVANCED_SENSOR_INFO = 0x400002,
 };

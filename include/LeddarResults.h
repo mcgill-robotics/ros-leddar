@@ -18,10 +18,10 @@
 
 #pragma once
 
-enum LdResults
-{
-    RID_TIMESTAMP                  = 0x001A11,
-    RID_TEMPERATURE                = 0x001A03,
-    RID_CPU_LOAD                   = 0x500100,		// Command CID_READ_ADVANCED_SENSOR_INFO must be executed each time.
-    RID_MEASUREMENT_RATE           = 0x500101,
+enum LdResults {
+  RID_TIMESTAMP = 0x001A11,
+  RID_TEMPERATURE = 0x001A03,
+  RID_CPU_LOAD = 0x500100,  // Command CID_READ_ADVANCED_SENSOR_INFO must be
+                            // executed each time.
+  RID_MEASUREMENT_RATE = 0x500101,
 };
