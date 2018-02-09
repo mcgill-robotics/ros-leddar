@@ -1,7 +1,7 @@
 <launch>
   <!-- Read arguments -->
   <arg name="serial" doc="Serial number of the device to connect to"/>
-  <arg name="type" default="SERIAL" doc="Connection type: either SERIAL or USB"/>
+  <arg name="type" default="USB" doc="Connection type: either SERIAL or USB"/>
   <arg name="frame" default="leddar" doc="TF frame for messages header"/>
   <arg name="fov" default="45.0" doc="Field of view of device in degrees"/>
   <arg name="range" default="50.0" doc="Maximum range of device in meters"/>

@@ -66,7 +66,7 @@ roslaunch leddar leddar.launch serial:=<serial> type:=<type> frame:=<frame_id> f
 `serial`, `type`, `frame`, `fov` and `range`  are run-time ROS launch arguments:
 - `serial`: Serial number of the device to connect to, default: only one
 connected.
-- `type`: Connection type (either: `USB` or `SERIAL`), default: `SERIAL`.
+- `type`: Connection type (either: `USB` or `SERIAL`), default: `USB`.
 - `frame`: `tf` frame to stamp the messages with, default: `leddar`.
 - `fov`: Field of view of the device in degrees, default: 45.0 degrees.
 - `range`: Maximum range of the device in meters, default: 50.0 meters.
