@@ -142,20 +142,16 @@ static void stream(LeddarHandle handler) {
   LeddarSetCallback(handler, leddar_callback, handler);
 }
 
-static void connect(LeddarHandle handler, const char* type, const char* serial) {
+static bool connect(LeddarHandle handler, const char* type, const char* serial) {
   int code = LeddarConnect(handler, (char*)type, (char*)serial);
   log_error("LeddarConnect()", code);
 
-  // Use default device` if unspecified.
-  if (serial[0] == '\0') {
-    serial = (char*)"default";
-  }
-
   if (code == LD_SUCCESS) {
     ROS_INFO("Connected to %s", serial);
+    return true;
   } else {
     ROS_FATAL("Failed to connect to %s", serial);
-    exit(1);
+    return false;
   }
 }
 
@@ -195,8 +191,8 @@ int main(int argc, char** argv) {
   std::string serial, type;
   nh.getParam("serial", serial);
   nh.getParam("type", type);
-  connect(handler, type.c_str(), serial.c_str());
-  if (!LeddarGetConnected(handler)) {
+  bool connected = connect(handler, type.c_str(), serial.c_str());
+  if (!connected || !LeddarGetConnected(handler)) {
     LeddarDestroy(handler);
     return -1;
   }
