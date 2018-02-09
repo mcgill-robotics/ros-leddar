@@ -142,26 +142,20 @@ static void stream(LeddarHandle handler) {
   LeddarSetCallback(handler, leddar_callback, handler);
 }
 
-static void connect(LeddarHandle handler, const char* serial) {
-  // TODO: Make this an argument.
-  char* connection_type = (char*)"SERIAL";
-
-  // Need to convert from const char* to a char*.
-  char* serial_copy = (char*)malloc(strlen(serial) + 1);
-  strcpy(serial_copy, serial);
-
-  int code = LeddarConnect(handler, connection_type, serial_copy);
+static void connect(LeddarHandle handler, const char* type, const char* serial) {
+  int code = LeddarConnect(handler, (char*)type, (char*)serial);
   log_error("LeddarConnect()", code);
 
   // Use default device` if unspecified.
-  if (serial_copy[0] == '\0') {
-    serial_copy = (char*)"default";
+  if (serial[0] == '\0') {
+    serial = (char*)"default";
   }
 
   if (code == LD_SUCCESS) {
-    ROS_INFO("Connected to %s", serial_copy);
+    ROS_INFO("Connected to %s", serial);
   } else {
-    ROS_FATAL("Failed to connect to %s", serial_copy);
+    ROS_FATAL("Failed to connect to %s", serial);
+    exit(1);
   }
 }
 
@@ -189,14 +183,19 @@ int main(int argc, char** argv) {
     ROS_FATAL("~frame parameter not set");
     return -4;
   }
+  if (!nh.hasParam("type")) {
+    ROS_FATAL("~type parameter not set");
+    return -5;
+  }
   nh.getParam("range", max_range);
   nh.getParam("fov", field_of_view);
   nh.getParam("frame", frame);
 
   // Get serial port and connect to Leddar.
-  std::string serial;
+  std::string serial, type;
   nh.getParam("serial", serial);
-  connect(handler, serial.c_str());
+  nh.getParam("type", type);
+  connect(handler, type.c_str(), serial.c_str());
   if (!LeddarGetConnected(handler)) {
     LeddarDestroy(handler);
     return -1;
