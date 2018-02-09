@@ -1,6 +1,7 @@
 <launch>
   <!-- Read arguments -->
   <arg name="serial" default=""/>
+  <arg name="type" default="SERIAL"/> <!-- Either "SERIAL" or "USB" -->
   <arg name="frame" default="leddar"/>
   <arg name="fov" default="45.0"/>
   <arg name="range" default="50.0"/>
@@ -10,6 +11,7 @@
       <!-- Set ROS parameters -->
       <param name="frame" value="$(arg frame)"/>
       <param name="serial" value="$(arg serial)"/>
+      <param name="type" value="$(arg type)"/>
       <param name="fov" value="$(arg fov)"/>
       <param name="range" value="$(arg range)"/>
   </node>

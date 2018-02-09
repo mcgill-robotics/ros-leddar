@@ -27,7 +27,7 @@ Udev rules
 To set up udev rules for your device, simply run:
 
 ```bash
-sudo useradd -G plugdev ${USER}
+sudo usermod -aG plugdev ${USER}
 sudo cp 10-leddartech.rules /etc/udev/rules.d/
 sudo udevadm trigger
 ```
@@ -57,16 +57,16 @@ from the root of your workspace.
 
 Running
 -------
-To run, simply connect the LeddarTech leddar over RS232 and launch the
-package with:
+To run, simply connect the LeddarTech leddar and launch the package with:
 
 ```bash
-roslaunch leddar leddar.launch serial:=<serial> frame:=<frame_id> fov:=<fov> range:=<range>
+roslaunch leddar leddar.launch serial:=<serial> type:=<type> frame:=<frame_id> fov:=<fov> range:=<range>
 ```
 
-`serial`, `frame`, `fov` and `range`  are run-time ROS launch arguments:
+`serial`, `type`, `frame`, `fov` and `range`  are run-time ROS launch arguments:
 - `serial`: Serial number of the device to connect to, default: only one
 connected.
+- `type`: Connection type (either: `USB` or `SERIAL`), default: `SERIAL`.
 - `frame`: `tf` frame to stamp the messages with, default: `leddar`.
 - `fov`: Field of view of the device in degrees, default: 45.0 degrees.
 - `range`: Maximum range of the device in meters, default: 50.0 meters.
