@@ -143,7 +143,7 @@ static void stream(LeddarHandle handler) {
 }
 
 static bool connect(LeddarHandle handler, const char* type, const char* serial) {
-  int code = LeddarConnect(handler, (char*)type, (char*)serial);
+  int code = LeddarConnect(handler, strdup(type), strdup(serial));
   log_error("LeddarConnect()", code);
 
   if (code == LD_SUCCESS) {
@@ -192,8 +192,7 @@ int main(int argc, char** argv) {
   nh.getParam("serial", serial);
   nh.getParam("type", type);
   bool connected = connect(handler, type.c_str(), serial.c_str());
-  if (!connected || !LeddarGetConnected(handler)) {
-    LeddarDestroy(handler);
+  if (!connected) {
     return -1;
   }
 
