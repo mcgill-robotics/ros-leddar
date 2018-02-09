@@ -1,10 +1,10 @@
 <launch>
   <!-- Read arguments -->
-  <arg name="serial" default=""/>
-  <arg name="type" default="SERIAL"/> <!-- Either "SERIAL" or "USB" -->
-  <arg name="frame" default="leddar"/>
-  <arg name="fov" default="45.0"/>
-  <arg name="range" default="50.0"/>
+  <arg name="serial" default="" doc="Serial number of the device to connect to"/>
+  <arg name="type" default="SERIAL" doc="Connection type: either SERIAL or USB"/>
+  <arg name="frame" default="leddar" doc="TF frame for messages header"/>
+  <arg name="fov" default="45.0" doc="Field of view of device in degrees"/>
+  <arg name="range" default="50.0" doc="Maximum range of device in meters"/>
 
   <node name="leddar" pkg="leddar" type="leddar"
     output="screen" respawn="true">
