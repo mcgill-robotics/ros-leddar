@@ -142,7 +142,8 @@ static void stream(LeddarHandle handler) {
   LeddarSetCallback(handler, leddar_callback, handler);
 }
 
-static bool connect(LeddarHandle handler, const char* type, const char* serial) {
+static bool connect(LeddarHandle handler, const char* type,
+                    const char* serial) {
   int code = LeddarConnect(handler, strdup(type), strdup(serial));
   log_error("LeddarConnect()", code);
 
