@@ -208,6 +208,7 @@ int main(int argc, char** argv) {
 
   // Clean up.
   LeddarStopDataTransfer(handler);
+  LeddarRemoveCallback(handler, leddar_callback, handler);
   LeddarDestroy(handler);
 
   return 0;
