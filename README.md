@@ -2,17 +2,20 @@ Leddar ROS Package
 ==================
 
 This ROS package configures and communicates with LeddarTech devices using
-their SDK. **This has only been tested on ROS Indigo and Jade with their
-Sensor Evaluation Kit.**
+their SDK. **This has only been tested on ROS Indigo, Jade and Kinetic with
+their Sensor Evaluation Kit.**
 
 This package was originally based on the work here: [jpmerc/leddartech]
 (https://github.com/jpmerc/leddartech).
 
 Setting up
 ----------
-You must clone this repository as `leddar` into your catkin workspace:
+You must clone this repository as `leddar` into your `catkin` workspace's
+`src` directory:
 
 ```bash
+roscd
+cd src
 git clone https://github.com/mcgill-robotics/ros-leddar.git leddar
 ```
 
