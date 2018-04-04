@@ -1,12 +1,16 @@
 Leddar ROS Package
 ==================
 
+[status]: https://dev.mcgillrobotics.com/buildStatus/icon?job=ros-leddar/master
+[url]: https://dev.mcgillrobotics.com/job/ros-leddar/job/master
+[![status]][url]
+
 This ROS package configures and communicates with LeddarTech devices using
 their SDK. **This has only been tested on ROS Indigo, Jade and Kinetic with
 their Sensor Evaluation Kit.**
 
-This package was originally based on the work here: [jpmerc/leddartech]
-(https://github.com/jpmerc/leddartech).
+This package was originally based on the work here:
+[jpmerc/leddartech](https://github.com/jpmerc/leddartech).
 
 Setting up
 ----------
