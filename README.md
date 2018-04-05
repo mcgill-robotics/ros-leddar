@@ -23,12 +23,6 @@ cd src
 git clone https://github.com/mcgill-robotics/ros-leddar.git leddar
 ```
 
-Then, install `libqt5serialport5-dev`. On Ubuntu, you can do so as follows:
-
-```bash
-sudo apt-get install -y libqt5serialport5-dev
-```
-
 Udev rules
 ----------
 To set up udev rules for your device, simply run:
@@ -45,10 +39,20 @@ You might have to restart for this to take effect.
 LeddarTech Driver
 -----------------
 Register for an account at
-[support.leddartech.com](https://support.leddartech.com) and download SDK for
-your target platform. Current supported version is v3.2.x.
+[support.leddartech.com](https://support.leddartech.com) and download the SDK
+for your target platform. The current supported version is v3.2.x.
 Extract the archive and move the `*.so` files into a directory of your choice,
 usually `/usr/lib`. This folder will be your `${LEDDAR_LIB_DIR}` directory.
+
+Finally, install the SDK's dependencies. On Ubuntu, you can do so as follows:
+
+```bash
+sudo apt-get install -y \
+  qtdeclarative5-dev \
+  libqt5serialport5-dev \
+  libusb-dev \
+  libxml2-dev
+```
 
 Compiling
 ---------
