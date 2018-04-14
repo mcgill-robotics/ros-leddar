@@ -11,10 +11,17 @@
   <author email="mr@anassinator.com">Anass Al</author>
 
   <buildtool_depend>catkin</buildtool_depend>
+
   <build_depend>roscpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>dynamic_reconfigure</build_depend>
+
+  <!-- LeddarTech SDK dependencies -->
+  <build_depend>qtbase5-dev</build_depend>
+  <build_depend>libqt5-serialport</build_depend>
+  <build_depend>libusb-dev</build_depend>
+  <build_depend>libxml2</build_depend>
 
   <run_depend>roscpp</run_depend>
   <run_depend>sensor_msgs</run_depend>
