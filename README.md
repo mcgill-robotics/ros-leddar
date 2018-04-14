@@ -23,9 +23,17 @@ cd src
 git clone https://github.com/mcgill-robotics/ros-leddar.git leddar
 ```
 
-Udev rules
+Finally, install the package's dependencies. You can do this using `rosdep` as
+follows from your `catkin` workspace's `src` directory:
+
+```bash
+rosdep update
+rosdep install --from-paths leddar
+```
+
+`udev` rules
 ----------
-To set up udev rules for your device, simply run:
+To set up `udev` rules for your device, simply run:
 
 ```bash
 sudo usermod -aG plugdev ${USER}
@@ -44,16 +52,6 @@ for your target platform. The current supported version is v3.2.x.
 Extract the archive and move the `*.so` files into a directory of your choice,
 usually `/usr/lib`. This folder will be your `${LEDDAR_LIB_DIR}` directory.
 
-Finally, install the SDK's dependencies. On Ubuntu, you can do so as follows:
-
-```bash
-sudo apt-get install -y \
-  qtdeclarative5-dev \
-  libqt5serialport5-dev \
-  libusb-dev \
-  libxml2-dev
-```
-
 Compiling
 ---------
 You **must** compile this package before being able to run it. You can do so
@@ -68,7 +66,7 @@ from the root of your workspace.
 
 Running
 -------
-To run, simply connect the LeddarTech leddar and launch the package with:
+To run, simply connect the LeddarTech sensor and launch the package with:
 
 ```bash
 roslaunch leddar leddar.launch serial:=<serial> type:=<type> frame:=<frame_id> fov:=<fov> range:=<range>
@@ -90,7 +88,7 @@ Configuring
 To configure the device, take a look at the parameters defined
 in [Scan.cfg](cfg/Scan.cfg).
 
-These paramaters can also be updated on the fly with ROS `dynamic_reconfigure`
+These parameters can also be updated on the fly with ROS `dynamic_reconfigure`
 as such:
 
 ```bash
