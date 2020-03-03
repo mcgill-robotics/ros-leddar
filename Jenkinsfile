@@ -19,7 +19,7 @@ pipeline {
       steps {
         dir(path: "${ROS_WORKSPACE}") {
           sh '''
-            . /opt/ros/kinetic/setup.sh
+            . /opt/ros/melodic/setup.sh
             catkin build --no-status --verbose
           '''
         }
@@ -30,7 +30,7 @@ pipeline {
       steps {
         dir(path: "${ROS_WORKSPACE}") {
           sh '''
-            . /opt/ros/kinetic/setup.sh
+            . /opt/ros/melodic/setup.sh
             . devel/setup.sh
             catkin run_tests
             catkin_test_results build --verbose
@@ -43,7 +43,7 @@ pipeline {
         stage('Lint') {
           steps {
             sh '''
-              . /opt/ros/kinetic/setup.sh
+              . /opt/ros/melodic/setup.sh
               catkin lint --explain -W2 --strict . \
                 --ignore env_var --ignore link_directory
             '''
